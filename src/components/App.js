@@ -28,6 +28,16 @@ const Questions = [
   }
 ]
  
+const AnswerDisplay = props => (
+<> 
+<div>
+    <p>
+      {props.answer}
+    </p>  
+  </div>
+</>
+)
+
 
 
 export function App({ initialData }) {
@@ -35,15 +45,19 @@ export function App({ initialData }) {
   const randomIndex = Math.floor(Math.random()*Questions.length);
   return (
     <div>
+      <div>
+        <h3>{Questions[randomIndex].category}</h3>
+      </div>
       <div>{Questions[randomIndex].question}</div>
       <div>
-        <div>{Questions[randomIndex].correct_answer}</div>
-        <div>{Questions[randomIndex].incorrect_answers[0]}</div>
-        <div>{Questions[randomIndex].incorrect_answers[1]}</div>
-        <div>{Questions[randomIndex].incorrect_answers[2]}</div>
+        {   utils.range(0, 3).map(answerIndex =>             
+            <AnswerDisplay key={answerIndex} answer={Questions[randomIndex].incorrect_answers[answerIndex]}/>
+        )}
       </div>
-    </div>
-      
-
+    </div>   
   );
+}
+
+const utils = {
+  range: (min, max) => Array.from({ length: max - min + 1 }, (_, i) => min + i),
 }
