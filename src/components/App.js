@@ -32,14 +32,13 @@ const Questions = [
 ]
  
 const AnswerDisplay = props => (
-<> 
-<div onClick={() => props.onClick(props.answer)} >
+<div id={props.answer}
+ onClick={() => props.onClick(props.answer)}
+ style= {{backgroundColor : 'lightgreen'}} >
     <p>
       {props.answer}
     </p>      
   </div>
-  
-</>
 )
 
 
@@ -51,8 +50,10 @@ export function App({ initialData }) {
 
   const onAnswerClick = (answer) => {   
     if(isCorrectAnswer(answer)){
+      let div = document.getElementById(answer)    
+      console.log(div)
       setPoints(points+1);
-    }      
+    }
   }
 
   const isCorrectAnswer = (answer) => {
