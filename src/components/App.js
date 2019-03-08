@@ -45,20 +45,18 @@ const AnswerDisplay = props => (
 
 
 export function App({ initialData }) {
-  
+  const[points, setPoints] = useState(0);
   const question = Questions[Math.floor(Math.random()*Questions.length)];
   const allAnswers = shuffle(question.incorrect_answers.concat(question.correct_answer));
 
   const onAnswerClick = (answer) => {   
-    console.log(isCorrectAnswer(answer))
+    if(isCorrectAnswer(answer)){
+      setPoints(points+1);
+    }      
   }
 
   const isCorrectAnswer = (answer) => {
-    if(question.correct_answer === answer){
-      return 'correct'
-    }else{
-      return 'wrong';
-    }    
+    return question.correct_answer === answer    
   }
 
   return (
@@ -74,6 +72,9 @@ export function App({ initialData }) {
             answer={allAnswers[answerIndex]}
             onClick={onAnswerClick} />
         )}
+      </div>
+      <div>
+        <h2>{points}</h2>
       </div>
     </div>   
   );
