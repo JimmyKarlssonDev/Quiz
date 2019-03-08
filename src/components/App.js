@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 
 
+const shuffle = require('shuffle-array')
+
+
 const Questions = [
   {   
     category:"Geography", 
@@ -41,17 +44,19 @@ const AnswerDisplay = props => (
 
 
 export function App({ initialData }) {
-  const [count, setCount] = useState(0);  
-  const randomIndex = Math.floor(Math.random()*Questions.length);
+  
+  const question = Questions[Math.floor(Math.random()*Questions.length)];
+  const allAnswers = shuffle(question.incorrect_answers.concat(question.correct_answer));
+
   return (
     <div>
       <div>
-        <h3>{Questions[randomIndex].category}</h3>
+        <h3>{question.category}</h3>
       </div>
-      <div>{Questions[randomIndex].question}</div>
+      <div>{question.question}</div>
       <div>
-        {   utils.range(0, 3).map(answerIndex =>             
-            <AnswerDisplay key={answerIndex} answer={Questions[randomIndex].incorrect_answers[answerIndex]}/>
+        {   utils.range(0, allAnswers.length).map(answerIndex =>             
+            <AnswerDisplay key={answerIndex} answer={allAnswers[answerIndex]}/>
         )}
       </div>
     </div>   
