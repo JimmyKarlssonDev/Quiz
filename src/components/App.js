@@ -33,11 +33,12 @@ const Questions = [
  
 const AnswerDisplay = props => (
 <> 
-<div>
+<div onClick={() => props.onClick(props.answer)} >
     <p>
       {props.answer}
-    </p>  
+    </p>      
   </div>
+  
 </>
 )
 
@@ -48,6 +49,18 @@ export function App({ initialData }) {
   const question = Questions[Math.floor(Math.random()*Questions.length)];
   const allAnswers = shuffle(question.incorrect_answers.concat(question.correct_answer));
 
+  const onAnswerClick = (answer) => {   
+    console.log(isCorrectAnswer(answer))
+  }
+
+  const isCorrectAnswer = (answer) => {
+    if(question.correct_answer === answer){
+      return 'correct'
+    }else{
+      return 'wrong';
+    }    
+  }
+
   return (
     <div>
       <div>
@@ -55,8 +68,11 @@ export function App({ initialData }) {
       </div>
       <div>{question.question}</div>
       <div>
-        {   utils.range(0, allAnswers.length).map(answerIndex =>             
-            <AnswerDisplay key={answerIndex} answer={allAnswers[answerIndex]}/>
+        {   utils.range(0, allAnswers.length-1).map(answerIndex =>             
+            <AnswerDisplay 
+            key={answerIndex} 
+            answer={allAnswers[answerIndex]}
+            onClick={onAnswerClick} />
         )}
       </div>
     </div>   
